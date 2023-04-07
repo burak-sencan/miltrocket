@@ -5,54 +5,54 @@ const Telemetry = ({ host, port }) => {
   const [telemetryData, setTelemetryData] = useState(null)
   const [isConnected, setIsConnected] = useState(false)
 
-  // useEffect(() => {
-  //   // const socket = io(`http://${host}:${port}`, {
-  //   const socket = io(`http://localhost:${port}`, {
-  //     // transports: ['websocket'],
-  //     reconnection: 100,
-  //   })
+  useEffect(() => {
+    // const socket = io(`http://${host}:${port}`, {
+    const socket = io(`http://localhost:${port}`, {
+      // transports: ['websocket'],
+      reconnection: 100,
+    })
 
-  //   function onConnect() {
-  //     setIsConnected(true)
-  //   }
+    function onConnect() {
+      setIsConnected(true)
+    }
 
-  //   function onDisconnect() {
-  //     setIsConnected(false)
-  //   }
+    function onDisconnect() {
+      setIsConnected(false)
+    }
 
-  //   function onFetchData(data) {
-  //     console.log(data)
-  //     const packetStartByte = data.readUInt8(0)
-  //     const telemetrySystemID = data.toString('ascii', 1, 11)
-  //     const packetNumber = data.readUInt8(11)
-  //     const packetSize = data.readUInt8(12)
-  //     const altitude = data.readFloatBE(13)
-  //     const speed = data.readFloatBE(17)
-  //     const acceleration = data.readFloatBE(21)
-  //     const thrust = data.readFloatBE(25)
-  //     const temperature = data.readFloatBE(29)
-  //     const crc16 = data.readUInt16BE(33)
-  //     const delimiter = data.readUInt8(35)
+    function onFetchData(data) {
+      console.log(data)
+      const packetStartByte = data.readUInt8(0)
+      const telemetrySystemID = data.toString('ascii', 1, 11)
+      const packetNumber = data.readUInt8(11)
+      const packetSize = data.readUInt8(12)
+      const altitude = data.readFloatBE(13)
+      const speed = data.readFloatBE(17)
+      const acceleration = data.readFloatBE(21)
+      const thrust = data.readFloatBE(25)
+      const temperature = data.readFloatBE(29)
+      const crc16 = data.readUInt16BE(33)
+      const delimiter = data.readUInt8(35)
 
-  //     setTelemetryData({
-  //       altitude,
-  //       speed,
-  //       acceleration,
-  //       thrust,
-  //       temperature,
-  //     })
-  //   }
+      setTelemetryData({
+        altitude,
+        speed,
+        acceleration,
+        thrust,
+        temperature,
+      })
+    }
 
-  //   socket.on('connect', onConnect)
-  //   socket.on('disconnect', onDisconnect)
-  //   socket.on('data', onFetchData)
+    socket.on('connect', onConnect)
+    socket.on('disconnect', onDisconnect)
+    socket.on('data', onFetchData)
 
-  //   return () => {
-  //     socket.off('connect', onConnect)
-  //     socket.off('disconnect', onDisconnect)
-  //     socket.off('data', onFetchData)
-  //   }
-  // }, [])
+    return () => {
+      socket.off('connect', onConnect)
+      socket.off('disconnect', onDisconnect)
+      socket.off('data', onFetchData)
+    }
+  }, [])
 
   return (
     <div className="grid grid-cols-2 gap-2 rounded-md  bg-white p-2">
